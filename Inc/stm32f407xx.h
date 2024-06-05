@@ -11,6 +11,13 @@
 #include <stdint.h>
 
 #define __IO volatile
+
+#define SET_BIT(REG, BIT)		((REG) |= (BIT))
+#define CLEAR_BIT(REG, BIT)		((REG) &= ~(BIT))
+#define READ_BIT(REG, BIT)		((REG) & (BIT))
+#define TOGGLE_BIT(REG, BIT)	((REG) ^= (BIT))
+#define UNUSED(x)				(void)x
+
 /*
  *  Memory Base Addresses
  */
@@ -115,37 +122,98 @@ typedef struct{
 }GPIO_Typedef_t;
 
 
-#define GPIOA				( (GPIO_Typedef_t *)(GPIOA_BASE_ADDR) )
-#define GPIOB				( (GPIO_Typedef_t *)(GPIOB_BASE_ADDR) )
-#define GPIOC				( (GPIO_Typedef_t *)(GPIOC_BASE_ADDR) )
-#define GPIOD				( (GPIO_Typedef_t *)(GPIOD_BASE_ADDR) )
-#define GPIOE				( (GPIO_Typedef_t *)(GPIOE_BASE_ADDR) )
-#define GPIOF				( (GPIO_Typedef_t *)(GPIOF_BASE_ADDR) )
-#define GPIOG				( (GPIO_Typedef_t *)(GPIOG_BASE_ADDR) )
-#define GPIOH				( (GPIO_Typedef_t *)(GPIOH_BASE_ADDR) )
-#define GPIOI				( (GPIO_Typedef_t *)(GPIOI_BASE_ADDR) )
-#define GPIOJ				( (GPIO_Typedef_t *)(GPIOJ_BASE_ADDR) )
-#define GPIOK				( (GPIO_Typedef_t *)(GPIOK_BASE_ADDR) )
+
+typedef struct {
+	__IO uint32_t CR;				/*!< clock control register										address offset = 0x0000 */
+	__IO uint32_t PLLCFRG;			/*!< PLL configuration register									address offset = 0x0004 */
+	__IO uint32_t CFRG;				/*!< clock configuration register								address offset = 0x0008 */
+	__IO uint32_t CIR;				/*!< clock interrupt register									address offset = 0x000C */
+	__IO uint32_t AHB1RSTR;			/*!< AHB1 peripheral reset register								address offset = 0x0010 */
+	__IO uint32_t AHB2RSTR;			/*!< AHB2 peripheral reset register								address offset = 0x0014 */
+	__IO uint32_t AHB3RSTR;			/*!< AHB3 peripheral reset register								address offset = 0x0018 */
+	__IO uint32_t RESERVED0;		/*!< RESERVED BLCOK												address offset = 0x001C */
+	__IO uint32_t APB1RSTR;			/*!< APB1 peripheral reset register								address offset = 0x0020 */
+	__IO uint32_t APB2RSTR;			/*!< APB2 peripheral reset register								address offset = 0x0024 */
+	__IO uint32_t RESERVED1[2];		/*!< RESERVED BLCOK												address offset = 0x0028 */
+	__IO uint32_t AHB1ENR;			/*!< AHB1 peripheral clock enable register						address offset = 0x0030 */
+	__IO uint32_t AHB2ENR;			/*!< AHB2 peripheral clock enable register						address offset = 0x0034 */
+	__IO uint32_t AHB3ENR;			/*!< AHB3 peripheral clock enable register						address offset = 0x0038 */
+	__IO uint32_t RESERVED2;		/*!< RESERVED BLCOK												address offset = 0x003C */
+	__IO uint32_t APB1ENR;			/*!< APB1 peripheral clock enable register						address offset = 0x0040 */
+	__IO uint32_t APB2ENR;			/*!< APB2 peripheral clock enable register						address offset = 0x0044 */
+	__IO uint32_t RESERVED3[2];		/*!< RESERVED BLCOK												address offset = 0x0048 */
+	__IO uint32_t AHB1LPENR;		/*!< AHB1 peripheral clock enable in low power mode register	address offset = 0x0050 */
+	__IO uint32_t AHB2LPENR;		/*!< AHB2 peripheral clock enable in low power mode register	address offset = 0x0054 */
+	__IO uint32_t AHB3LPENR;		/*!< AHB3 peripheral clock enable in low power mode register	address offset = 0x0058 */
+	__IO uint32_t RESERVED4;		/*!< RESERVED BLCOK												address offset = 0x005C */
+	__IO uint32_t APB1LPENR;		/*!< APB1 peripheral clock enable in low power mode register	address offset = 0x0060 */
+	__IO uint32_t APB2LPENR;		/*!< APB2 peripheral clock enable in low power mode register	address offset = 0x0064 */
+	__IO uint32_t RESERVED5[2];		/*!< RESERVED BLCOK												address offset = 0x0068 */
+	__IO uint32_t BDCR;				/*!< Backup domain control register								address offset = 0x0070 */
+	__IO uint32_t CSR;				/*!< Clock control & status register							address offset = 0x0074 */
+	__IO uint32_t RESERVED6[2];		/*!< RESERVED BLCOK												address offset = 0x0078 */
+	__IO uint32_t SSCGR;			/*!< Spread spectrum clock generation register					address offset = 0x0080 */
+	__IO uint32_t PLLI2SCFGR;		/*!< PLI2S configuration register								address offset = 0x0084 */
+} RCC_Typedef_t;
 
 
 
 
+#define GPIOA						( (GPIO_Typedef_t *)(GPIOA_BASE_ADDR) )
+#define GPIOB						( (GPIO_Typedef_t *)(GPIOB_BASE_ADDR) )
+#define GPIOC						( (GPIO_Typedef_t *)(GPIOC_BASE_ADDR) )
+#define GPIOD						( (GPIO_Typedef_t *)(GPIOD_BASE_ADDR) )
+#define GPIOE						( (GPIO_Typedef_t *)(GPIOE_BASE_ADDR) )
+#define GPIOF						( (GPIO_Typedef_t *)(GPIOF_BASE_ADDR) )
+#define GPIOG						( (GPIO_Typedef_t *)(GPIOG_BASE_ADDR) )
+#define GPIOH						( (GPIO_Typedef_t *)(GPIOH_BASE_ADDR) )
+#define GPIOI						( (GPIO_Typedef_t *)(GPIOI_BASE_ADDR) )
+
+#define RCC							( (RCC_Typedef_t *)(RCC_BASE_ADDR) )
+
+
+/*
+ * Bit Definitions
+ */
+
+#define RCC_AHB1ENR_GPIOA_Pos		(0U)								/*!< RCC AH1BENR GPIOA Clock Enable Bit Position */
+#define RCC_AHB1ENR_GPIOA_Msk		(0x1 << RCC_AHB1ENR_GPIOA_Pos )		/*!< RCC AH1BENR GPIOA Clock Enable Bit Mask */
+#define RCC_AHB1ENR_GPIOAEN			RCC_AHB1ENR_GPIOA_Msk				/*!< RCC AH1BENR GPIOA Clock Enable Macro */
+
+#define RCC_AHB1ENR_GPIOB_Pos		(1U)								/*!< RCC AH1BENR GPIOB Clock Enable Bit Position */
+#define RCC_AHB1ENR_GPIOB_Msk		(0x1 << RCC_AHB1ENR_GPIOB_Pos )		/*!< RCC AH1BENR GPIOB Clock Enable Bit Mask */
+#define RCC_AHB1ENR_GPIOBEN			RCC_AHB1ENR_GPIOB_Msk				/*!< RCC AH1BENR GPIOB Clock Enable Macro */
+
+#define RCC_AHB1ENR_GPIOC_Pos		(2U)								/*!< RCC AH1BENR GPIOC Clock Enable Bit Position */
+#define RCC_AHB1ENR_GPIOC_Msk		(0x1 << RCC_AHB1ENR_GPIOC_Pos )		/*!< RCC AH1BENR GPIOC Clock Enable Bit Mask */
+#define RCC_AHB1ENR_GPIOCEN			RCC_AHB1ENR_GPIOC_Msk				/*!< RCC AH1BENR GPIOC Clock Enable Macro */
+
+#define RCC_AHB1ENR_GPIOD_Pos		(3U)								/*!< RCC AH1BENR GPIOD Clock Enable Bit Position */
+#define RCC_AHB1ENR_GPIOD_Msk		(0x1 << RCC_AHB1ENR_GPIOD_Pos )		/*!< RCC AH1BENR GPIOD Clock Enable Bit Mask */
+#define RCC_AHB1ENR_GPIODEN			RCC_AHB1ENR_GPIOD_Msk				/*!< RCC AH1BENR GPIOD Clock Enable Macro */
+
+#define RCC_AHB1ENR_GPIOE_Pos		(4U)								/*!< RCC AH1BENR GPIOE Clock Enable Bit Position */
+#define RCC_AHB1ENR_GPIOE_Msk		(0x1 << RCC_AHB1ENR_GPIOE_Pos )		/*!< RCC AH1BENR GPIOE Clock Enable Bit Mask */
+#define RCC_AHB1ENR_GPIOEEN			RCC_AHB1ENR_GPIOE_Msk				/*!< RCC AH1BENR GPIOE Clock Enable Macro */
+
+#define RCC_AHB1ENR_GPIOF_Pos		(5U)								/*!< RCC AH1BENR GPIOF Clock Enable Bit Position */
+#define RCC_AHB1ENR_GPIOF_Msk		(0x1 << RCC_AHB1ENR_GPIOF_Pos )		/*!< RCC AH1BENR GPIOF Clock Enable Bit Mask */
+#define RCC_AHB1ENR_GPIOFEN			RCC_AHB1ENR_GPIOF_Msk				/*!< RCC AH1BENR GPIOF Clock Enable Macro */
+
+#define RCC_AHB1ENR_GPIOG_Pos		(6U)								/*!< RCC AH1BENR GPIOG Clock Enable Bit Position */
+#define RCC_AHB1ENR_GPIOG_Msk		(0x1 << RCC_AHB1ENR_GPIOG_Pos )		/*!< RCC AH1BENR GPIOG Clock Enable Bit Mask */
+#define RCC_AHB1ENR_GPIOGEN			RCC_AHB1ENR_GPIOG_Msk				/*!< RCC AH1BENR GPIOG Clock Enable Macro */
+
+#define RCC_AHB1ENR_GPIOH_Pos		(7U)								/*!< RCC AH1BENR GPIOH Clock Enable Bit Position */
+#define RCC_AHB1ENR_GPIOH_Msk		(0x1 << RCC_AHB1ENR_GPIOH_Pos )		/*!< RCC AH1BENR GPIOH Clock Enable Bit Mask */
+#define RCC_AHB1ENR_GPIOHEN			RCC_AHB1ENR_GPIOH_Msk				/*!< RCC AH1BENR GPIOH Clock Enable Macro */
+
+#define RCC_AHB1ENR_GPIOI_Pos		(8U)								/*!< RCC AH1BENR GPIOI Clock Enable Bit Position */
+#define RCC_AHB1ENR_GPIOI_Msk		(0x1 << RCC_AHB1ENR_GPIOI_Pos )		/*!< RCC AH1BENR GPIOI Clock Enable Bit Mask */
+#define RCC_AHB1ENR_GPIOIEN			RCC_AHB1ENR_GPIOI_Msk				/*!< RCC AH1BENR GPIOI Clock Enable Macro */
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#include "RCC.h"
 
 #endif /* INC_STM32F407XX_H_ */
