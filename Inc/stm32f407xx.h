@@ -9,6 +9,15 @@
 #define INC_STM32F407XX_H_
 
 #include <stdint.h>
+#include <string.h>
+
+/*
+ * Microprocessor Defines
+ */
+
+#define NVIC_ISER0			 ( (uint32_t *)(0xE000E100) )
+
+
 
 #define __IO volatile
 
@@ -17,6 +26,12 @@
 #define READ_BIT(REG, BIT)		((REG) & (BIT))
 #define TOGGLE_BIT(REG, BIT)	((REG) ^= (BIT))
 #define UNUSED(x)				(void)x
+
+typedef enum{
+	DISABLE	= 0x0U,
+	ENABLE = !DISABLE
+}FUNCTIONALState_t;
+
 
 /*
  *  Memory Base Addresses
@@ -110,15 +125,15 @@
 
 
 typedef struct{
-	__IO uint32_t MODER;			/*!< GPIO port mode register					address offset = 0x0000 */
-	__IO uint32_t OTYPER;			/*!< GPIO port output type register 			address offset = 0x0004 */
-	__IO uint32_t OSPEEDR;			/*!< GPIO port output speed register			address offset = 0x0008 */
-	__IO uint32_t PUPDR;			/*!< GPIO port pull-up/pull-down register		address offset = 0x000C */
-	__IO uint32_t IDR;				/*!< GPIO port input data register				address offset = 0x0010 */
-	__IO uint32_t ODR;				/*!< GPIO port output data register				address offset = 0x0014 */
-	__IO uint32_t BSRR;				/*!< GPIO port bit set/reset register			address offset = 0x0018 */
-	__IO uint32_t LCKR;				/*!< GPIO port configuration lock register		address offset = 0x001C */
-	__IO uint32_t AFR[2];			/*!< GPIO port alternate function register		address offset = 0x0020 */
+	__IO uint32_t MODER;			/*!< GPIO port mode register									address offset = 0x0000 */
+	__IO uint32_t OTYPER;			/*!< GPIO port output type register 							address offset = 0x0004 */
+	__IO uint32_t OSPEEDR;			/*!< GPIO port output speed register							address offset = 0x0008 */
+	__IO uint32_t PUPDR;			/*!< GPIO port pull-up/pull-down register						address offset = 0x000C */
+	__IO uint32_t IDR;				/*!< GPIO port input data register								address offset = 0x0010 */
+	__IO uint32_t ODR;				/*!< GPIO port output data register								address offset = 0x0014 */
+	__IO uint32_t BSRR;				/*!< GPIO port bit set/reset register							address offset = 0x0018 */
+	__IO uint32_t LCKR;				/*!< GPIO port configuration lock register						address offset = 0x001C */
+	__IO uint32_t AFR[2];			/*!< GPIO port alternate function register						address offset = 0x0020 */
 }GPIO_Typedef_t;
 
 
@@ -157,6 +172,23 @@ typedef struct {
 } RCC_Typedef_t;
 
 
+typedef struct {
+	__IO uint32_t MEMRMP;			/*!< SYSCFG Memory Remap Register								address offset = 0x0000 */
+	__IO uint32_t PMC;				/*!< SYSCFG Peripheral Mode Configuration Register				address offset = 0x0004 */
+	__IO uint32_t EXTI_CR[4];		/*!< SYSCFG External Interrupt Configuration Registers			address offset = 0x0008 */
+	__IO uint32_t RESERVED[2];		/*!< SYSCFG RESERVED AREA 										address offset = 0x0018 */
+	__IO uint32_t CMPCR;			/*!< SYSCFG Compensation Cell Control Register					address offset = 0x0020 */
+}SYSCFG_Typedef_t;
+
+typedef struct {
+	__IO uint32_t IMR;				/*!< EXTI Interrupt mask register								address offset = 0x0000 */
+	__IO uint32_t EMR;				/*!< EXTI Event mask register									address offset = 0x0004 */
+	__IO uint32_t RTSR;				/*!< EXTI Rising trigger selection register						address offset = 0x0008 */
+	__IO uint32_t FTSR;				/*!< EXTI Falling trigger selection register					address offset = 0x000C */
+	__IO uint32_t SWIER;			/*!< EXTI Software interrupt event register						address offset = 0x0010 */
+	__IO uint32_t PR;				/*!< EXTI Pending Register										address offset = 0x0014 */
+}EXTI_Typedef_t;
+
 
 
 #define GPIOA						( (GPIO_Typedef_t *)(GPIOA_BASE_ADDR) )
@@ -171,6 +203,9 @@ typedef struct {
 
 #define RCC							( (RCC_Typedef_t *)(RCC_BASE_ADDR) )
 
+#define SYSCFG						( (SYSCFG_Typedef_t *)(SYSCFG_BASE_ADDR) )
+
+#define EXTI						( (EXTI_Typedef_t *)(EXTI_BASE_ADDR) )
 
 /*
  * Bit Definitions
@@ -212,8 +247,13 @@ typedef struct {
 #define RCC_AHB1ENR_GPIOI_Msk		(0x1 << RCC_AHB1ENR_GPIOI_Pos )		/*!< RCC AH1BENR GPIOI Clock Enable Bit Mask */
 #define RCC_AHB1ENR_GPIOIEN			RCC_AHB1ENR_GPIOI_Msk				/*!< RCC AH1BENR GPIOI Clock Enable Macro */
 
+#define RCC_APB2ENR_SYSCFG_Pos		(14U)								/*!< RCC APB2ENR SYSCFG Clock Enable Bit Position */
+#define RCC_APB2ENR_SYSCFG_Msk		(0x1 << RCC_APB2ENR_SYSCFG_Pos)		/*!< RCC APB2ENR SYSCFG Clock Enable Bit Mask */
+#define RCC_APB2ENR_SYSCFGEN		RCC_APB2ENR_SYSCFG_Msk				/*!< RCC APB2ENR SYSCFG Clock Enable Macro */
 
 
 #include "RCC.h"
+#include "GPIO.h"
+#include "EXTI.h"
 
 #endif /* INC_STM32F407XX_H_ */
