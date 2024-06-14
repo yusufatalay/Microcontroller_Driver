@@ -70,12 +70,12 @@ void EXTI_LineConfig(uint8_t EXTI_PortSource,uint8_t EXTI_LineSource ){
  * @retval none
  *
  */
-void NVIC_EnableInterrupt(uint8_t IRQNumber){
+void NVIC_EnableInterrupt(IRQNumber_Typedef_t IRQNumber){
 	uint32_t tempValue =0 ;
 
 	tempValue  = *((IRQNumber >> 5U) + NVIC_ISER0); // Find address of corresponding register for IRQ Number and de-ref it.
 	tempValue &= ~(0x1U << (IRQNumber & 0x1FU ));	// Clear the corresponding bit (modulus).
-	tempValue |= (0x1U <<(IRQNumber & 0x1FU ) );
+	tempValue |=  (0x1U << (IRQNumber & 0x1FU ));
 
 	*((IRQNumber >> 5U) + NVIC_ISER0) = tempValue;
 }

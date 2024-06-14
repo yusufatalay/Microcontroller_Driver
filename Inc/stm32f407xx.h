@@ -32,6 +32,16 @@ typedef enum{
 	ENABLE = !DISABLE
 }FUNCTIONALState_t;
 
+/*
+ * IRQ Numbers of MCU == Vector Table
+ */
+typedef enum{
+	 EXTI0_IRQNumber = 6,
+	 EXTI1_IRQNumber,
+	 EXTI2_IRQNumber,
+	 EXTI3_IRQNumber,
+	 EXTI4_IRQNumber
+}IRQNumber_Typedef_t;
 
 /*
  *  Memory Base Addresses
