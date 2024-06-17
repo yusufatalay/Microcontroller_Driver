@@ -68,7 +68,25 @@
 #define GPIO_OSPEED_HIGH			(0x2U)
 #define GPIO_OSPEED_VERYHIGH		(0x3U)
 
-
+/*
+ * @def_group GPIO_AF_Modes
+ */
+#define GPIO_AF0					(0x0U)
+#define GPIO_AF1					(0x1U)
+#define GPIO_AF2					(0x2U)
+#define GPIO_AF3					(0x3U)
+#define GPIO_AF4					(0x4U)
+#define GPIO_AF5					(0x5U)
+#define GPIO_AF6					(0x6U)
+#define GPIO_AF7					(0x7U)
+#define GPIO_AF8					(0x8U)
+#define GPIO_AF9					(0x9U)
+#define GPIO_AF10					(0xAU)
+#define GPIO_AF11					(0xBU)
+#define GPIO_AF12					(0xCU)
+#define GPIO_AF13					(0xDU)
+#define GPIO_AF14					(0xEU)
+#define GPIO_AF15					(0xFU)
 
 typedef enum{
 	GPIO_Pin_Reset 	= 0x0U,
@@ -82,9 +100,7 @@ typedef struct{
 	uint32_t Otype;			/*!< GPIO Pin OTYPE Modes @def_group GPIO_OTYPE_Modes */
 	uint32_t PuPd;			/*!< GPIO Pin PuPd Modes @def_group GPIO_PuPd_Modes */
 	uint32_t Speed;			/*!< GPIO Pin OSPEED Modes @def_group GPIO_OSPEED_Modes */
-	uint32_t Alternate;
-
-
+	uint32_t Alternate;		/*!< GPIO Pin Alternate Function Modes @def_group GPIO_AF_Modes */
 }GPIO_InitTypedef_t;
 
 void GPIO_Init(GPIO_Typedef_t *GPIOx, GPIO_InitTypedef_t *GPIO_Config);

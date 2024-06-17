@@ -90,6 +90,34 @@
 													UNUSED(tempValue);											\
 												}while(0);
 
+#define RCC_SPI1_CLK_ENABLE()					do{	uint32_t	tempValue = 0;									\
+													SET_BIT(RCC->APB2ENR, RCC_APB2ENR_SPI1EN);				\
+													tempValue = READ_BIT(RCC->APB2ENR, RCC_APB2ENR_SPI1EN);	\
+													UNUSED(tempValue);											\
+												}while(0);
+
 #define RCC_SYSCFG_CLK_DISABLE()				CLEAR_BIT(RCC->APB2ENR, RCC_APB2ENR_SYSCFGEN);
+#define RCC_SPI1_CLK_DISABLE()					CLEAR_BIT(RCC->APB2ENR, RCC_APB2ENR_SPI1EN);
+
+
+/*
+ * RCC APB1 Peripherals Clock Enable & Disable
+ */
+
+#define RCC_SPI2_CLK_ENABLE()					do{	uint32_t	tempValue = 0;									\
+													SET_BIT(RCC->APB1ENR, RCC_APB1ENR_SPI2EN);				\
+													tempValue = READ_BIT(RCC->APB1ENR, RCC_APB1ENR_SPI2EN);	\
+													UNUSED(tempValue);											\
+												}while(0);
+
+#define RCC_SPI3_CLK_ENABLE()					do{	uint32_t	tempValue = 0;									\
+													SET_BIT(RCC->APB1ENR, RCC_APB1ENR_SPI3EN);				\
+													tempValue = READ_BIT(RCC->APB1ENR, RCC_APB1ENR_SPI3EN);	\
+													UNUSED(tempValue);											\
+												}while(0);
+
+
+#define RCC_SPI2_CLK_DISABLE()					CLEAR_BIT(RCC->APB1ENR, RCC_APB1ENR_SPI2EN);
+#define RCC_SPI3_CLK_DISABLE()					CLEAR_BIT(RCC->APB1ENR, RCC_APB1ENR_SPI3EN);
 
 #endif /* INC_RCC_H_ */

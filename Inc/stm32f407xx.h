@@ -10,6 +10,7 @@
 
 #include <stdint.h>
 #include <string.h>
+#include <stddef.h>
 
 /*
  * Microprocessor Defines
@@ -40,7 +41,8 @@ typedef enum{
 	 EXTI1_IRQNumber,
 	 EXTI2_IRQNumber,
 	 EXTI3_IRQNumber,
-	 EXTI4_IRQNumber
+	 EXTI4_IRQNumber,
+	 SPI1_IRQNumber = 35
 }IRQNumber_Typedef_t;
 
 /*
@@ -199,71 +201,115 @@ typedef struct {
 	__IO uint32_t PR;				/*!< EXTI Pending Register										address offset = 0x0014 */
 }EXTI_Typedef_t;
 
+typedef struct{
+	__IO uint32_t CR1;				/*!< SPI Control Register 1										address offset = 0x0000 */
+	__IO uint32_t CR2;				/*!< SPI Control Register 2										address offset = 0x0004 */
+	__IO uint32_t SR;				/*!< SPI Status Register										address offset = 0x0008 */
+	__IO uint32_t DR;				/*!< SPI Data Register											address offset = 0x000C */
+	__IO uint32_t CRCPR;			/*!< SPI CRC Polynomial Register								address offset = 0x0010 */
+	__IO uint32_t RXCRCR;			/*!< SPI RX CRC Polynomial Register								address offset = 0x0014 */
+	__IO uint32_t TXCRCR;			/*!< SPI TX CRC Register										address offset = 0x0018 */
+	__IO uint32_t I2SCFGR;			/*!< SPI I2S Configuration Register								address offset = 0x001C */
+	__IO uint32_t I2SPR;			/*!< SPI I2S Prescaler Register									address offset = 0x0020 */
+}SPI_Typedef_t;
 
 
-#define GPIOA						( (GPIO_Typedef_t *)(GPIOA_BASE_ADDR) )
-#define GPIOB						( (GPIO_Typedef_t *)(GPIOB_BASE_ADDR) )
-#define GPIOC						( (GPIO_Typedef_t *)(GPIOC_BASE_ADDR) )
-#define GPIOD						( (GPIO_Typedef_t *)(GPIOD_BASE_ADDR) )
-#define GPIOE						( (GPIO_Typedef_t *)(GPIOE_BASE_ADDR) )
-#define GPIOF						( (GPIO_Typedef_t *)(GPIOF_BASE_ADDR) )
-#define GPIOG						( (GPIO_Typedef_t *)(GPIOG_BASE_ADDR) )
-#define GPIOH						( (GPIO_Typedef_t *)(GPIOH_BASE_ADDR) )
-#define GPIOI						( (GPIO_Typedef_t *)(GPIOI_BASE_ADDR) )
+#define GPIOA						( (GPIO_Typedef_t *)(GPIOA_BASE_ADDR)	)
+#define GPIOB						( (GPIO_Typedef_t *)(GPIOB_BASE_ADDR)	)
+#define GPIOC						( (GPIO_Typedef_t *)(GPIOC_BASE_ADDR)	)
+#define GPIOD						( (GPIO_Typedef_t *)(GPIOD_BASE_ADDR)	)
+#define GPIOE						( (GPIO_Typedef_t *)(GPIOE_BASE_ADDR)	)
+#define GPIOF						( (GPIO_Typedef_t *)(GPIOF_BASE_ADDR)	)
+#define GPIOG						( (GPIO_Typedef_t *)(GPIOG_BASE_ADDR) 	)
+#define GPIOH						( (GPIO_Typedef_t *)(GPIOH_BASE_ADDR) 	)
+#define GPIOI						( (GPIO_Typedef_t *)(GPIOI_BASE_ADDR) 	)
 
-#define RCC							( (RCC_Typedef_t *)(RCC_BASE_ADDR) )
+#define RCC							( (RCC_Typedef_t *)(RCC_BASE_ADDR) 		)
 
-#define SYSCFG						( (SYSCFG_Typedef_t *)(SYSCFG_BASE_ADDR) )
+#define SYSCFG						( (SYSCFG_Typedef_t *)(SYSCFG_BASE_ADDR))
 
-#define EXTI						( (EXTI_Typedef_t *)(EXTI_BASE_ADDR) )
+#define EXTI						( (EXTI_Typedef_t *)(EXTI_BASE_ADDR) 	)
+
+#define SPI1						( (SPI_Typedef_t *)(SPI1_BASE_ADDR) 	)
+#define SPI2						( (SPI_Typedef_t *)(SPI2_BASE_ADDR)	 	)
+#define SPI3						( (SPI_Typedef_t *)(SPI3_BASE_ADDR) 	)
+#define SPI4						( (SPI_Typedef_t *)(SPI4_BASE_ADDR) 	)
+#define SPI5						( (SPI_Typedef_t *)(SPI5_BASE_ADDR) 	)
+#define SPI6						( (SPI_Typedef_t *)(SPI6_BASE_ADDR) 	)
+
 
 /*
  * Bit Definitions
  */
 
-#define RCC_AHB1ENR_GPIOA_Pos		(0U)								/*!< RCC AH1BENR GPIOA Clock Enable Bit Position */
-#define RCC_AHB1ENR_GPIOA_Msk		(0x1 << RCC_AHB1ENR_GPIOA_Pos )		/*!< RCC AH1BENR GPIOA Clock Enable Bit Mask */
-#define RCC_AHB1ENR_GPIOAEN			RCC_AHB1ENR_GPIOA_Msk				/*!< RCC AH1BENR GPIOA Clock Enable Macro */
+#define RCC_AHB1ENR_GPIOAEN_Pos		(0U)								/*!< RCC AH1BENR GPIOA Clock Enable Bit Position */
+#define RCC_AHB1ENR_GPIOAEN_Msk		(0x1 << RCC_AHB1ENR_GPIOAEN_Pos )		/*!< RCC AH1BENR GPIOA Clock Enable Bit Mask */
+#define RCC_AHB1ENR_GPIOAEN			RCC_AHB1ENR_GPIOAEN_Msk				/*!< RCC AH1BENR GPIOA Clock Enable Macro */
 
-#define RCC_AHB1ENR_GPIOB_Pos		(1U)								/*!< RCC AH1BENR GPIOB Clock Enable Bit Position */
-#define RCC_AHB1ENR_GPIOB_Msk		(0x1 << RCC_AHB1ENR_GPIOB_Pos )		/*!< RCC AH1BENR GPIOB Clock Enable Bit Mask */
-#define RCC_AHB1ENR_GPIOBEN			RCC_AHB1ENR_GPIOB_Msk				/*!< RCC AH1BENR GPIOB Clock Enable Macro */
+#define RCC_AHB1ENR_GPIOBEN_Pos		(1U)								/*!< RCC AH1BENR GPIOB Clock Enable Bit Position */
+#define RCC_AHB1ENR_GPIOBEN_Msk		(0x1 << RCC_AHB1ENR_GPIOBEN_Pos )		/*!< RCC AH1BENR GPIOB Clock Enable Bit Mask */
+#define RCC_AHB1ENR_GPIOBEN			RCC_AHB1ENR_GPIOBEN_Msk				/*!< RCC AH1BENR GPIOB Clock Enable Macro */
 
-#define RCC_AHB1ENR_GPIOC_Pos		(2U)								/*!< RCC AH1BENR GPIOC Clock Enable Bit Position */
-#define RCC_AHB1ENR_GPIOC_Msk		(0x1 << RCC_AHB1ENR_GPIOC_Pos )		/*!< RCC AH1BENR GPIOC Clock Enable Bit Mask */
-#define RCC_AHB1ENR_GPIOCEN			RCC_AHB1ENR_GPIOC_Msk				/*!< RCC AH1BENR GPIOC Clock Enable Macro */
+#define RCC_AHB1ENR_GPIOCEN_Pos		(2U)								/*!< RCC AH1BENR GPIOC Clock Enable Bit Position */
+#define RCC_AHB1ENR_GPIOCEN_Msk		(0x1 << RCC_AHB1ENR_GPIOCEN_Pos )		/*!< RCC AH1BENR GPIOC Clock Enable Bit Mask */
+#define RCC_AHB1ENR_GPIOCEN			RCC_AHB1ENR_GPIOCEN_Msk				/*!< RCC AH1BENR GPIOC Clock Enable Macro */
 
-#define RCC_AHB1ENR_GPIOD_Pos		(3U)								/*!< RCC AH1BENR GPIOD Clock Enable Bit Position */
-#define RCC_AHB1ENR_GPIOD_Msk		(0x1 << RCC_AHB1ENR_GPIOD_Pos )		/*!< RCC AH1BENR GPIOD Clock Enable Bit Mask */
-#define RCC_AHB1ENR_GPIODEN			RCC_AHB1ENR_GPIOD_Msk				/*!< RCC AH1BENR GPIOD Clock Enable Macro */
+#define RCC_AHB1ENR_GPIODEN_Pos		(3U)								/*!< RCC AH1BENR GPIOD Clock Enable Bit Position */
+#define RCC_AHB1ENR_GPIODEN_Msk		(0x1 << RCC_AHB1ENR_GPIODEN_Pos )		/*!< RCC AH1BENR GPIOD Clock Enable Bit Mask */
+#define RCC_AHB1ENR_GPIODEN			RCC_AHB1ENR_GPIODEN_Msk				/*!< RCC AH1BENR GPIOD Clock Enable Macro */
 
-#define RCC_AHB1ENR_GPIOE_Pos		(4U)								/*!< RCC AH1BENR GPIOE Clock Enable Bit Position */
-#define RCC_AHB1ENR_GPIOE_Msk		(0x1 << RCC_AHB1ENR_GPIOE_Pos )		/*!< RCC AH1BENR GPIOE Clock Enable Bit Mask */
-#define RCC_AHB1ENR_GPIOEEN			RCC_AHB1ENR_GPIOE_Msk				/*!< RCC AH1BENR GPIOE Clock Enable Macro */
+#define RCC_AHB1ENR_GPIOEEN_Pos		(4U)								/*!< RCC AH1BENR GPIOE Clock Enable Bit Position */
+#define RCC_AHB1ENR_GPIOEEN_Msk		(0x1 << RCC_AHB1ENR_GPIOE_Pos )		/*!< RCC AH1BENR GPIOE Clock Enable Bit Mask */
+#define RCC_AHB1ENR_GPIOEEN			RCC_AHB1ENR_GPIOEEN_Msk				/*!< RCC AH1BENR GPIOE Clock Enable Macro */
 
-#define RCC_AHB1ENR_GPIOF_Pos		(5U)								/*!< RCC AH1BENR GPIOF Clock Enable Bit Position */
-#define RCC_AHB1ENR_GPIOF_Msk		(0x1 << RCC_AHB1ENR_GPIOF_Pos )		/*!< RCC AH1BENR GPIOF Clock Enable Bit Mask */
-#define RCC_AHB1ENR_GPIOFEN			RCC_AHB1ENR_GPIOF_Msk				/*!< RCC AH1BENR GPIOF Clock Enable Macro */
+#define RCC_AHB1ENR_GPIOFEN_Pos		(5U)								/*!< RCC AH1BENR GPIOF Clock Enable Bit Position */
+#define RCC_AHB1ENR_GPIOFEN_Msk		(0x1 << RCC_AHB1ENR_GPIOF_Pos )		/*!< RCC AH1BENR GPIOF Clock Enable Bit Mask */
+#define RCC_AHB1ENR_GPIOFEN			RCC_AHB1ENR_GPIOFEN_Msk				/*!< RCC AH1BENR GPIOF Clock Enable Macro */
 
-#define RCC_AHB1ENR_GPIOG_Pos		(6U)								/*!< RCC AH1BENR GPIOG Clock Enable Bit Position */
-#define RCC_AHB1ENR_GPIOG_Msk		(0x1 << RCC_AHB1ENR_GPIOG_Pos )		/*!< RCC AH1BENR GPIOG Clock Enable Bit Mask */
-#define RCC_AHB1ENR_GPIOGEN			RCC_AHB1ENR_GPIOG_Msk				/*!< RCC AH1BENR GPIOG Clock Enable Macro */
+#define RCC_AHB1ENR_GPIOGEN_Pos		(6U)								/*!< RCC AH1BENR GPIOG Clock Enable Bit Position */
+#define RCC_AHB1ENR_GPIOGEN_Msk		(0x1 << RCC_AHB1ENR_GPIOGEN_Pos )		/*!< RCC AH1BENR GPIOG Clock Enable Bit Mask */
+#define RCC_AHB1ENR_GPIOGEN			RCC_AHB1ENR_GPIOGEN_Msk				/*!< RCC AH1BENR GPIOG Clock Enable Macro */
 
-#define RCC_AHB1ENR_GPIOH_Pos		(7U)								/*!< RCC AH1BENR GPIOH Clock Enable Bit Position */
-#define RCC_AHB1ENR_GPIOH_Msk		(0x1 << RCC_AHB1ENR_GPIOH_Pos )		/*!< RCC AH1BENR GPIOH Clock Enable Bit Mask */
-#define RCC_AHB1ENR_GPIOHEN			RCC_AHB1ENR_GPIOH_Msk				/*!< RCC AH1BENR GPIOH Clock Enable Macro */
+#define RCC_AHB1ENR_GPIOHEN_Pos		(7U)								/*!< RCC AH1BENR GPIOH Clock Enable Bit Position */
+#define RCC_AHB1ENR_GPIOHEN_Msk		(0x1 << RCC_AHB1ENR_GPIOHEN_Pos )		/*!< RCC AH1BENR GPIOH Clock Enable Bit Mask */
+#define RCC_AHB1ENR_GPIOHEN			RCC_AHB1ENR_GPIOHEN_Msk				/*!< RCC AH1BENR GPIOH Clock Enable Macro */
 
-#define RCC_AHB1ENR_GPIOI_Pos		(8U)								/*!< RCC AH1BENR GPIOI Clock Enable Bit Position */
-#define RCC_AHB1ENR_GPIOI_Msk		(0x1 << RCC_AHB1ENR_GPIOI_Pos )		/*!< RCC AH1BENR GPIOI Clock Enable Bit Mask */
-#define RCC_AHB1ENR_GPIOIEN			RCC_AHB1ENR_GPIOI_Msk				/*!< RCC AH1BENR GPIOI Clock Enable Macro */
+#define RCC_AHB1ENR_GPIOIEN_Pos		(8U)								/*!< RCC AH1BENR GPIOI Clock Enable Bit Position */
+#define RCC_AHB1ENR_GPIOIEN_Msk		(0x1 << RCC_AHB1ENR_GPIOIEN_Pos )		/*!< RCC AH1BENR GPIOI Clock Enable Bit Mask */
+#define RCC_AHB1ENR_GPIOIEN			RCC_AHB1ENR_GPIOIEN_Msk				/*!< RCC AH1BENR GPIOI Clock Enable Macro */
 
-#define RCC_APB2ENR_SYSCFG_Pos		(14U)								/*!< RCC APB2ENR SYSCFG Clock Enable Bit Position */
-#define RCC_APB2ENR_SYSCFG_Msk		(0x1 << RCC_APB2ENR_SYSCFG_Pos)		/*!< RCC APB2ENR SYSCFG Clock Enable Bit Mask */
-#define RCC_APB2ENR_SYSCFGEN		RCC_APB2ENR_SYSCFG_Msk				/*!< RCC APB2ENR SYSCFG Clock Enable Macro */
+#define RCC_APB2ENR_SYSCFGEN_Pos		(14U)								/*!< RCC APB2ENR SYSCFG Clock Enable Bit Position */
+#define RCC_APB2ENR_SYSCFGEN_Msk		(0x1 << RCC_APB2ENR_SYSCFGEN_Pos)		/*!< RCC APB2ENR SYSCFG Clock Enable Bit Mask */
+#define RCC_APB2ENR_SYSCFGEN			RCC_APB2ENR_SYSCFGEN_Msk				/*!< RCC APB2ENR SYSCFG Clock Enable Macro */
+
+#define RCC_APB2ENR_SPI1EN_Pos		(12U)								/*!< RCC APB2ENR SPI1	Clock Enable Bit Position */
+#define RCC_APB2ENR_SPI1EN_Msk		(0x1 << RCC_APB2ENR_SPI1EN_Pos)		/*!< RCC APB2ENR SPI1	Clock Enable Bit Mask */
+#define RCC_APB2ENR_SPI1EN			RCC_APB2ENR_SPI1EN_Msk				/*!< RCC APB2ENR SPI1	Clock Enable Macro */
+
+#define RCC_APB1ENR_SPI2EN_Pos		(14U)								/*!< RCC APB1ENR SPI2	Clock Enable Bit Position */
+#define RCC_APB1ENR_SPI2EN_Msk		(0x1 << RCC_APB1ENR_SPI2EN_Pos)		/*!< RCC APB1ENR SPI2	Clock Enable Bit Mask */
+#define RCC_APB1ENR_SPI2EN			RCC_APB1ENR_SPI2EN_Msk				/*!< RCC APB1ENR SPI2	Clock Enable Macro */
+
+#define RCC_APB1ENR_SPI3EN_Pos		(15U)								/*!< RCC APB1ENR SPI3	Clock Enable Bit Position */
+#define RCC_APB1ENR_SPI3EN_Msk		(0x1 << RCC_APB1ENR_SPI3EN_Pos)		/*!< RCC APB1ENR SPI3	Clock Enable Bit Mask */
+#define RCC_APB1ENR_SPI3EN			RCC_APB1ENR_SPI3EN_Msk				/*!< RCC APB1ENR SPI3	Clock Enable Macro */
+
+
+#define SPI_SR_RXNE					(0U)								/*!< SPI Status Register Receive Buffer Not Empty Flag */
+#define SPI_SR_TXE						(1U)								/*!< SPI Status Register Transmit Buffer Empty Flag */
+#define SPI_SR_BSY						(7U)								/*!< SPI Status Register Busy Flag */
+
+#define SPI_CR1_SPE					(6U)								/*!< SPI CR1 Peripheral Enable Bit Position */
+#define SPI_CR1_DFF					(11U)								/*!< SPI CR1 Data Frame Format Bit Position */
+
+#define SPI_CR2_TXEIE					(7U)								/*!< SPI CR2 Transmit Buffer Empty Interrupt Enable Bit Position*/
+#define SPI_CR2_RXNEIE				(6U)								/*!< SPI CR2 Receive Buffer Not Empty Interrupt Enable Bit Position*/
+
 
 
 #include "RCC.h"
 #include "GPIO.h"
 #include "EXTI.h"
+#include "SPI.h"
 
 #endif /* INC_STM32F407XX_H_ */
