@@ -139,7 +139,7 @@ void SPI_Init(SPI_HandleTypedef_t *SPI_Handle){
  *
  * @retval none
  */
-void SPI_Peripheral_Cmd(SPI_HandleTypedef_t *SPI_Handle, FUNCTIONALState_t Cmd){
+void SPI_Peripheral_Cmd(SPI_HandleTypedef_t *SPI_Handle, FunctionalState_t Cmd){
 	if (Cmd == ENABLE){
 		SPI_Handle->Instance->CR1 |= (0x1U << SPI_CR1_SPE);
 	}else{
@@ -281,6 +281,14 @@ void SPI_ReceiveDataINT(SPI_HandleTypedef_t *SPI_Handle, uint8_t *pBuffer, uint1
 		}
 }
 
+/*
+ * @brief Handles the interrupt for SPI port.
+ *
+ * @param SPI_Handle = Struct that contains the address
+ *  of the configured SPI instance.
+ *
+ * @retval none
+ */
 void SPI_InterruptHandler(SPI_HandleTypedef_t *SPI_Handle){
 	uint8_t interruptSource = 0;
 	uint8_t interruptFlag = 0;

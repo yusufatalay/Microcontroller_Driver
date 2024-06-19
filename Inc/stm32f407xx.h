@@ -22,16 +22,16 @@
 
 #define __IO volatile
 
-#define SET_BIT(REG, BIT)		((REG) |= (BIT))
+#define SET_BIT(REG, BIT)			((REG) |= (BIT))
 #define CLEAR_BIT(REG, BIT)		((REG) &= ~(BIT))
-#define READ_BIT(REG, BIT)		((REG) & (BIT))
-#define TOGGLE_BIT(REG, BIT)	((REG) ^= (BIT))
-#define UNUSED(x)				(void)x
+#define READ_BIT(REG, BIT)			((REG) & (BIT))
+#define TOGGLE_BIT(REG, BIT)		((REG) ^= (BIT))
+#define UNUSED(x)					(void)x
 
 typedef enum{
 	DISABLE	= 0x0U,
 	ENABLE = !DISABLE
-}FUNCTIONALState_t;
+}FunctionalState_t;
 
 /*
  * IRQ Numbers of MCU == Vector Table
@@ -42,7 +42,12 @@ typedef enum{
 	 EXTI2_IRQNumber,
 	 EXTI3_IRQNumber,
 	 EXTI4_IRQNumber,
-	 SPI1_IRQNumber = 35
+	 SPI1_IRQNumber = 35,
+	 SPI2_IRQNumber,
+	 USART1_IRQNumber,
+	 USART2_IRQNumber,
+	 USART3_IRQNumber
+
 }IRQNumber_Typedef_t;
 
 /*
@@ -58,7 +63,7 @@ typedef enum{
  *  Peripheral's Base Addresses
  */
 
-#define PERIPH_BASE_ADDR			(0x40000000UL)						/* Base address for all peripherals	*/
+#define PERIPH_BASE_ADDR				(0x40000000UL)						/* Base address for all peripherals	*/
 
 #define APB1_BASE_ADDR				PERIPH_BASE_ADDR					/* APB1 Bus Domain base address		*/
 #define APB2_BASE_ADDR				(PERIPH_BASE_ADDR + 0x00010000UL)	/* APB2 Bus Domain base address		*/
@@ -80,8 +85,8 @@ typedef enum{
 #define SPI2_BASE_ADDR				(APB1_BASE_ADDR + 0x00003800UL)		/* SPI 2 Base Address 	*/
 #define SPI3_BASE_ADDR				(APB1_BASE_ADDR + 0x00003C00UL)		/* SPI 3 Base Address 	*/
 
-#define USART2_BASE_ADDR			(APB1_BASE_ADDR + 0x00004400UL)		/* USART 2 Base Address */
-#define USART3_BASE_ADDR			(APB1_BASE_ADDR + 0x00004800UL)		/* USART 3 Base Address */
+#define USART2_BASE_ADDR				(APB1_BASE_ADDR + 0x00004400UL)		/* USART 2 Base Address */
+#define USART3_BASE_ADDR				(APB1_BASE_ADDR + 0x00004800UL)		/* USART 3 Base Address */
 #define UART4_BASE_ADDR				(APB1_BASE_ADDR + 0x00004C00UL)		/* UART 4 Base Address 	*/
 #define UART5_BASE_ADDR				(APB1_BASE_ADDR + 0x00005000UL)		/* UART 5 Base Address 	*/
 
@@ -97,15 +102,15 @@ typedef enum{
 #define TIM1_BASE_ADDR				(APB2_BASE_ADDR + 0x00000000UL)		/* Timer 1 Base Address */
 #define TIM8_BASE_ADDR				(APB2_BASE_ADDR + 0x00000400UL)		/* Timer 8 Base Address */
 
-#define USART1_BASE_ADDR			(APB2_BASE_ADDR + 0x00001000UL)		/* USART 1 Base Address */
-#define USART6_BASE_ADDR			(APB2_BASE_ADDR + 0x00001400UL)		/* USART 6 Base Address */
+#define USART1_BASE_ADDR				(APB2_BASE_ADDR + 0x00001000UL)		/* USART 1 Base Address */
+#define USART6_BASE_ADDR				(APB2_BASE_ADDR + 0x00001400UL)		/* USART 6 Base Address */
 
 #define SPI1_BASE_ADDR				(APB2_BASE_ADDR + 0x00003000UL)		/* SPI 1 Base Address 	*/
 #define SPI4_BASE_ADDR				(APB2_BASE_ADDR + 0x00003400UL)		/* SPI 4 Base Address 	*/
 #define SPI5_BASE_ADDR				(APB2_BASE_ADDR + 0x00005000UL)		/* SPI 5 Base Address 	*/
 #define SPI6_BASE_ADDR				(APB2_BASE_ADDR + 0x00005400UL)		/* SPI 6 Base Address 	*/
 
-#define SYSCFG_BASE_ADDR			(APB2_BASE_ADDR + 0x00003800UL)		/* SYSCFG Base Address 	*/
+#define SYSCFG_BASE_ADDR				(APB2_BASE_ADDR + 0x00003800UL)		/* SYSCFG Base Address 	*/
 
 #define EXTI_BASE_ADDR				(APB2_BASE_ADDR + 0x00003C00UL)		/* EXTI Base Address 	*/
 
@@ -127,7 +132,7 @@ typedef enum{
 #define GPIOJ_BASE_ADDR				(AHB1_BASE_ADDR + 0x00002400UL)		/* GPRIOJ Base Address	*/
 #define GPIOK_BASE_ADDR				(AHB1_BASE_ADDR + 0x00002800UL)		/* GPRIOK Base Address	*/
 
-#define RCC_BASE_ADDR				(AHB1_BASE_ADDR + 0x00003800UL)		/* RCCBase Address		*/
+#define RCC_BASE_ADDR					(AHB1_BASE_ADDR + 0x00003800UL)		/* RCCBase Address		*/
 
 
 
@@ -213,6 +218,15 @@ typedef struct{
 	__IO uint32_t I2SPR;			/*!< SPI I2S Prescaler Register									address offset = 0x0020 */
 }SPI_Typedef_t;
 
+typedef struct {
+	__IO uint32_t SR;				/*!< USART Status Register										address offset = 0x0000 */
+	__IO uint32_t DR;				/*!< USART Data Register										address offset = 0x0004 */
+	__IO uint32_t BRR;				/*!< USART Baud Rate Register									address offset = 0x0008 */
+	__IO uint32_t CR1;				/*!< USART Control Register 1									address offset = 0x000C */
+	__IO uint32_t CR2;				/*!< USART Control Register 2									address offset = 0x0010 */
+	__IO uint32_t CR3;				/*!< USART Control Register 3									address offset = 0x0014 */
+	__IO uint32_t GTPR;				/*!< USART Guard Time and Prescaler Register					address offset = 0x0018 */
+}USART_Typedef_t;
 
 #define GPIOA						( (GPIO_Typedef_t *)(GPIOA_BASE_ADDR)	)
 #define GPIOB						( (GPIO_Typedef_t *)(GPIOB_BASE_ADDR)	)
@@ -224,7 +238,7 @@ typedef struct{
 #define GPIOH						( (GPIO_Typedef_t *)(GPIOH_BASE_ADDR) 	)
 #define GPIOI						( (GPIO_Typedef_t *)(GPIOI_BASE_ADDR) 	)
 
-#define RCC							( (RCC_Typedef_t *)(RCC_BASE_ADDR) 		)
+#define RCC						( (RCC_Typedef_t *)(RCC_BASE_ADDR) 		)
 
 #define SYSCFG						( (SYSCFG_Typedef_t *)(SYSCFG_BASE_ADDR))
 
@@ -237,6 +251,12 @@ typedef struct{
 #define SPI5						( (SPI_Typedef_t *)(SPI5_BASE_ADDR) 	)
 #define SPI6						( (SPI_Typedef_t *)(SPI6_BASE_ADDR) 	)
 
+#define USART1						( (USART_Typedef_t *)(USART1_BASE_ADDR) )
+#define USART2						( (USART_Typedef_t *)(USART2_BASE_ADDR) )
+#define USART3						( (USART_Typedef_t *)(USART3_BASE_ADDR) )
+#define UART4						( (USART_Typedef_t *)(UART4_BASE_ADDR)  )
+#define UART5						( (USART_Typedef_t *)(UART5_BASE_ADDR)  )
+#define USART6						( (USART_Typedef_t *)(USART6_BASE_ADDR) )
 
 /*
  * Bit Definitions
@@ -294,10 +314,29 @@ typedef struct{
 #define RCC_APB1ENR_SPI3EN_Msk		(0x1 << RCC_APB1ENR_SPI3EN_Pos)		/*!< RCC APB1ENR SPI3	Clock Enable Bit Mask */
 #define RCC_APB1ENR_SPI3EN			RCC_APB1ENR_SPI3EN_Msk				/*!< RCC APB1ENR SPI3	Clock Enable Macro */
 
+#define RCC_APB2ENR_USART1_Pos		(4U)								/*!< RCC APB2ENR USART1 Clock Enable Bit Position */
+#define RCC_APB2ENR_USART1_Msk		(0x1 << RCC_APB2ENR_USART1_Pos)		/*!< RCC APB2ENR USART1 Clock Enable Bit Mask */
+#define RCC_APB2ENR_USART1EN			(RCC_APB2ENR_USART1_Msk)			/*!< RCC APB2ENR USART1 Clock Enable Macro */
 
-#define SPI_SR_RXNE					(0U)								/*!< SPI Status Register Receive Buffer Not Empty Flag */
-#define SPI_SR_TXE						(1U)								/*!< SPI Status Register Transmit Buffer Empty Flag */
-#define SPI_SR_BSY						(7U)								/*!< SPI Status Register Busy Flag */
+#define RCC_APB1ENR_USART2_Pos		(17U)								/*!< RCC APB1ENR USART2 Clock Enable Bit Position */
+#define RCC_APB1ENR_USART2_Msk		(0x1 << RCC_APB1ENR_USART2_Pos)		/*!< RCC APB1ENR USART2 Clock Enable Bit Mask */
+#define RCC_APB1ENR_USART2EN			(RCC_APB1ENR_USART2_Msk)			/*!< RCC APB1ENR USART2 Clock Enable Macro */
+
+#define RCC_APB1ENR_USART3_Pos		(18U)								/*!< RCC APB1ENR USART3 Clock Enable Bit Position */
+#define RCC_APB1ENR_USART3_Msk		(0x1 << RCC_APB1ENR_USART3_Pos)		/*!< RCC APB1ENR USART3 Clock Enable Bit Mask */
+#define RCC_APB1ENR_USART3EN			(RCC_APB1ENR_USART3_Msk)			/*!< RCC APB1ENR USART3 Clock Enable Macro */
+
+#define RCC_APB1ENR_UART4_Pos			(19U)								/*!< RCC APB1ENR UART4 Clock Enable Bit Position */
+#define RCC_APB1ENR_UART4_Msk			(0x1 << RCC_APB1ENR_UART4_Pos)		/*!< RCC APB1ENR UART4 Clock Enable Bit Mask */
+#define RCC_APB1ENR_UART4EN			(RCC_APB1ENR_UART4_Msk)				/*!< RCC APB1ENR UART4 Clock Enable Macro */
+
+#define RCC_APB1ENR_UART5_Pos			(20U)								/*!< RCC APB1ENR UART5 Clock Enable Bit Position */
+#define RCC_APB1ENR_UART5_Msk			(0x1 << RCC_APB1ENR_UART5_Pos)		/*!< RCC APB1ENR UART5 Clock Enable Bit Mask */
+#define RCC_APB1ENR_UART5EN			(RCC_APB1ENR_UART5_Msk)				/*!< RCC APB1ENR UART5 Clock Enable Macro */
+
+#define RCC_APB2ENR_USART6_Pos		(5U)								/*!< RCC APB2ENR USART6 Clock Enable Bit Position */
+#define RCC_APB2ENR_USART6_Msk		(0x1 << RCC_APB2ENR_USART6_Pos)		/*!< RCC APB2ENR USART6 Clock Enable Bit Mask */
+#define RCC_APB2ENR_USART6EN			(RCC_APB2ENR_USART6_Msk)			/*!< RCC APB2ENR USART6 Clock Enable Macro */
 
 #define SPI_CR1_SPE					(6U)								/*!< SPI CR1 Peripheral Enable Bit Position */
 #define SPI_CR1_DFF					(11U)								/*!< SPI CR1 Data Frame Format Bit Position */
@@ -305,11 +344,22 @@ typedef struct{
 #define SPI_CR2_TXEIE					(7U)								/*!< SPI CR2 Transmit Buffer Empty Interrupt Enable Bit Position*/
 #define SPI_CR2_RXNEIE				(6U)								/*!< SPI CR2 Receive Buffer Not Empty Interrupt Enable Bit Position*/
 
+#define SPI_SR_RXNE					(0U)								/*!< SPI Status Register Receive Buffer Not Empty Flag */
+#define SPI_SR_TXE						(1U)								/*!< SPI Status Register Transmit Buffer Empty Flag */
+#define SPI_SR_BSY						(7U)								/*!< SPI Status Register Busy Flag */
 
+#define USART_CR2_STOP				(12U)								/*!< USART CR2 STOP Bits Position*/
+#define USART_SR_TXE					(7U)								/*!< USART Status Register Transmit Buffer Empty Flag */
+#define USART_SR_RXNE					(5U)								/*!< USART Status Register Receive Buffer Not Empty Flag */
+#define USART_SR_TC					(6U)								/*!< USART Status Register Transmission Complete Flag */
+#define USART_CR1_UE					(13U)								/*!< USART Control Register1 USART ENABLE Bit Position */
+#define USART_CR1_TXEIE				(7U)								/*!< USART Control Register1 Transmit Buffer Empty Interrupt Enable Bit Position*/
+#define USART_CR1_RXNEIE				(5U)								/*!< USART Control Register1 Receive Buffer Not Empty Interrupt Enable Bit Position*/
 
 #include "RCC.h"
 #include "GPIO.h"
 #include "EXTI.h"
 #include "SPI.h"
+#include "USART.h"
 
 #endif /* INC_STM32F407XX_H_ */

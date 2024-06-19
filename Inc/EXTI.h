@@ -66,7 +66,7 @@ typedef struct{
 	uint8_t EXTI_LineNumber;			/*!< EXTI line number for GPIO port @def_group EXTI_Line_Values */
 	uint8_t TriggerSelection;			/*!< EXTI trigger values @def_group EXIT_Trigger_Modes	*/
 	uint8_t EXTI_Mode;					/*!< EXTI mode values @def_group EXTI_Mode_Values */
-	FUNCTIONALState_t EXTI_LineCmd;		/*!< Mask or un-mask the line number */
+	FunctionalState_t EXTI_LineCmd;		/*!< Mask or un-mask the line number */
 }EXTI_InitTypedef_t;
 
 

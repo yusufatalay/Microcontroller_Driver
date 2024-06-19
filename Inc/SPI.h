@@ -114,7 +114,7 @@ typedef struct SPI_HandleTypedef_t
 
 
 void SPI_Init(SPI_HandleTypedef_t *SPI_Handle);
-void SPI_Peripheral_Cmd(SPI_HandleTypedef_t *SPI_Handle, FUNCTIONALState_t Cmd);
+void SPI_Peripheral_Cmd(SPI_HandleTypedef_t *SPI_Handle, FunctionalState_t Cmd);
 void SPI_TransmitData(SPI_HandleTypedef_t *SPI_Handle, uint8_t *pData, uint16_t sizeOfData);
 void SPI_ReceiveData(SPI_HandleTypedef_t *SPI_Handle, uint8_t *pBuffer, uint16_t sizeOfData);
 void SPI_TransmitDataINT(SPI_HandleTypedef_t *SPI_Handle, uint8_t *pData, uint16_t sizeOfData);

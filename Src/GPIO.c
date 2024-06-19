@@ -27,7 +27,7 @@ void GPIO_Init(GPIO_Typedef_t *GPIOx, GPIO_InitTypedef_t *GPIO_Config){
 		if (fakePosition == lastPosition){
 
 			// MODE CONFIG
-		    tempValue = GPIOx->MODER;
+			tempValue = GPIOx->MODER;
 			tempValue &= ~(0x3U << (position*2));
 			tempValue |= (GPIO_Config->Mode << (position*2));
 			GPIOx->MODER = tempValue;
@@ -53,13 +53,13 @@ void GPIO_Init(GPIO_Typedef_t *GPIOx, GPIO_InitTypedef_t *GPIO_Config){
 			tempValue &= ~(0x3U << (position * 2));
 			tempValue |= (GPIO_Config->PuPd << (position * 2));
 			GPIOx->PUPDR = tempValue;
-		}
 
-		if (GPIO_Config->Mode == GPIO_MODE_AF){
-			tempValue = GPIOx->AFR[position >> 3U];				// find correct register
-			tempValue &= ~(0xFU << ((position & 0x7U ) >> 2)); 	// find correct pin
-			tempValue |= (GPIO_Config->Alternate << ((position & 0x7U) >> 2));
-			GPIOx->AFR[position >> 3U] |= tempValue;
+			if (GPIO_Config->Mode == GPIO_MODE_AF){
+						tempValue = GPIOx->AFR[position >> 3U];				// find correct register
+						tempValue &= ~(0xFU << ((position & 0x7U ) << 2)); 	// find correct pin
+						tempValue |= (GPIO_Config->Alternate << ((position & 0x7U) << 2));
+						GPIOx->AFR[position >> 3U] |= tempValue;
+			}
 		}
 	}
 }

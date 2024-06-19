@@ -24,12 +24,12 @@
 #define GPIO_PIN_7				(uint16_t)(0x0080)	/*!< GPIO Pin 7 selected */
 #define GPIO_PIN_8				(uint16_t)(0x0100)	/*!< GPIO Pin 8 selected */
 #define GPIO_PIN_9				(uint16_t)(0x0200)	/*!< GPIO Pin 9 selected */
-#define GPIO_PIN_10				(uint16_t)(0x0400)	/*!< GPIO Pin 10 selected */
-#define GPIO_PIN_11				(uint16_t)(0x0800)	/*!< GPIO Pin 11 selected */
-#define GPIO_PIN_12				(uint16_t)(0x1000)	/*!< GPIO Pin 12 selected */
-#define GPIO_PIN_13				(uint16_t)(0x2000)	/*!< GPIO Pin 13 selected */
-#define GPIO_PIN_14				(uint16_t)(0x4000)	/*!< GPIO Pin 14 selected */
-#define GPIO_PIN_15				(uint16_t)(0x8000)	/*!< GPIO Pin 15 selected */
+#define GPIO_PIN_10			(uint16_t)(0x0400)	/*!< GPIO Pin 10 selected */
+#define GPIO_PIN_11			(uint16_t)(0x0800)	/*!< GPIO Pin 11 selected */
+#define GPIO_PIN_12			(uint16_t)(0x1000)	/*!< GPIO Pin 12 selected */
+#define GPIO_PIN_13			(uint16_t)(0x2000)	/*!< GPIO Pin 13 selected */
+#define GPIO_PIN_14			(uint16_t)(0x4000)	/*!< GPIO Pin 14 selected */
+#define GPIO_PIN_15			(uint16_t)(0x8000)	/*!< GPIO Pin 15 selected */
 #define GPIO_PIN_ALL			(uint16_t)(0xFFFF)	/*!< All GPIO pins are selected */
 
 
@@ -37,7 +37,7 @@
  * @def_group GPIO_Pin_Modes
  */
 
-#define GPIO_MODE_INPUT			(0x0U)
+#define GPIO_MODE_INPUT		(0x0U)
 #define GPIO_MODE_OUTPUT		(0x1U)
 #define GPIO_MODE_AF			(0x2U)
 #define GPIO_MODE_ANALOG		(0x3U)
@@ -57,14 +57,14 @@
 
 #define GPIO_PUPD_NOPULL			(0x0U)
 #define GPIO_PUPD_PULLUP			(0x1U)
-#define GPIO_PUPD_PULLDOWN			(0x2U)
+#define GPIO_PUPD_PULLDOWN		(0x2U)
 
 /*
  * @def_group GPIO_OSPEED_Modes
  */
 
-#define GPIO_OSPEED_LOW				(0x0U)
-#define GPIO_OSPEED_MEDIUM			(0x1U)
+#define GPIO_OSPEED_LOW			(0x0U)
+#define GPIO_OSPEED_MEDIUM		(0x1U)
 #define GPIO_OSPEED_HIGH			(0x2U)
 #define GPIO_OSPEED_VERYHIGH		(0x3U)
 
