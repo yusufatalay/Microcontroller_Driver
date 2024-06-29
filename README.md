@@ -1,4 +1,4 @@
-## STM32F407 Peripheral Driver Implementation
+## STM32F407-DISC Peripheral Driver Implementation
 
 This project provides a set of device drivers for various peripherals on the STM32F407 microcontroller board. These drivers offer a low-level interface for interacting with essential functionalities, simplifying development for embedded systems.
 
